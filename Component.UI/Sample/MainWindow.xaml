@@ -1,0 +1,43 @@
+﻿<Window x:Class="TrustOpener.MainWindow"
+        x:Name="main"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:local="clr-namespace:Enken.Sample"
+        xmlns:ecu="clr-namespace:Enken.Component.UI"
+        Title="Behavior Component Sample"
+        Width="250" Height="150"
+        ecu:ClipboardViewerBehavior.Text="{Binding ClipboardText, Mode=OneWayToSource}">
+    <Window.DataContext>
+        <local:MainWindowViewModel/>
+    </Window.DataContext>
+    <i:Interaction.Behaviors>
+        <ecu:ClipboardViewerBehavior />
+    </i:Interaction.Behaviors>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="4"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Password :"             HorizontalAlignment="Right"     VerticalAlignment="Center" Grid.Row="0" Grid.Column="1"/>
+        <Label Content="Raw Password :"         HorizontalAlignment="Right"     VerticalAlignment="Center" Grid.Row="1" Grid.Column="1"/>
+        <Label Content="Clipboard Text :"       HorizontalAlignment="Right"     VerticalAlignment="Center" Grid.Row="2" Grid.Column="1"/>
+        <PasswordBox                            HorizontalAlignment="Stretch"   VerticalAlignment="Center" Grid.Row="0" Grid.Column="2">
+            <i:Interaction.Behaviors>
+                <ecu:PasswordBindBehavior Password="{Binding Password, Mode=TwoWay}" x:Name="bhvPb"/>
+            </i:Interaction.Behaviors>
+        </PasswordBox>
+        <Label Content="{Binding Path=(ecu:PasswordBindBehavior.Password), ElementName=bhvPb}"
+               HorizontalAlignment="Stretch"   VerticalAlignment="Center" Grid.Row="1" Grid.Column="2"/>
+        <Label Content="{Binding Path=(ecu:ClipboardViewerBehavior.Text), ElementName=main}"
+               HorizontalAlignment="Stretch"   VerticalAlignment="Center" Grid.Row="2" Grid.Column="2"/>
+    </Grid>
+</Window>
